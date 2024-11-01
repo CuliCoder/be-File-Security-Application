@@ -8,4 +8,6 @@ route.post('/auth/login', authController.login);
 route.post('/auth/register', authController.register);
 route.use(JWTAction);
 route.put('/user/change-password', userController.changePassword);
+route.get('/auth/checkStatus', authController.checkStatus);
+route.get('/auth/logout', authController.logout);
 export default route;

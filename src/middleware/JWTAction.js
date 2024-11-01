@@ -4,7 +4,6 @@ import { get_publicKey_Token } from '../services/user.js';
 const JWTAction = async (req, res, next) => {
     const accessToken = await key.getPassword('file-security-app', 'accessToken');
     const id_user = await key.getPassword('file-security-app', 'id_user');
-    console.log(accessToken, id_user);
     if (!accessToken || !id_user) {
         return res.status(401).json({
             error: 2,

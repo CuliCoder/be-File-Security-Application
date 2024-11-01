@@ -70,3 +70,21 @@ export const register = async (req, res) => {
         return res.status(500).json(err);
     }
 }
+export const checkStatus = async (req, res) => {
+    return res.status(200).json({
+        error: 0,
+        message: "Success"
+    });
+}
+export const logout = async (req, res) => {
+    try {
+        await keytar.deletePassword('file-security-app', 'accessToken');
+        await keytar.deletePassword('file-security-app', 'id_user');
+        return res.status(200).json({
+            error: 0,
+            message: "Logout successfully"
+        });
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+}
