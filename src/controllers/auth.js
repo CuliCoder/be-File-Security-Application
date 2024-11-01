@@ -1,6 +1,5 @@
 import * as authServices from '../services/auth.js';
 export const login = async (req, res) => {
-    console.log("Login request received");
     try {
         const { email, password } = req.body;
         if (!email || !password) {
