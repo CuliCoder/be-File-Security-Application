@@ -73,3 +73,42 @@ export const changePassword = (id, password, newPassword) => new Promise(async (
         })
     }
 })
+export const save_Key = (id, privateKey_rsa, key_aes) => new Promise(async (resolve, reject) => {
+    try {
+        const [result] = await connection.execute(`UPDATE user SET privateKey_rsa = ?, key_aes = ? WHERE id = ?`, [privateKey_rsa, key_aes, id]);
+        resolve({
+            error: result.affectedRows === 0 ? 1 : 0,
+            message: result.affectedRows === 0 ? "Save key failed" : "Save key successfully"
+        })
+    } catch (error) {
+        console.log(error);
+        reject({
+            error: 1,
+            message: "Save key failed"
+        })
+    }
+});
+export const get_Key = (id) => new Promise(async (resolve, reject) => {
+    try {
+        const [key] = await connection.query(`SELECT privateKey_rsa, key_aes FROM user where id = ? `, [id]);
+        if (key.length === 0) {
+            resolve({
+                error: 1,
+                message: "User not found",
+            });
+            return;
+        }
+        resolve({
+            error: 0,
+            privateKey_rsa: JSON.parse(key[0].privateKey_rsa),
+            key_aes: JSON.parse(key[0].key_aes)
+        })
+    }
+    catch (err) {
+        console.log(err);
+        reject({
+            error: 1,
+            message: "Get key failed",
+        });
+    }
+})

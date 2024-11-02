@@ -30,3 +30,34 @@ export const changePassword = async (req, res) => {
     }
 
 }
+export const save_Key = async (req, res) => {
+    try {
+        const id = req.data.id;
+        const { privateKey_rsa, key_aes } = req.body;
+        if (!id || !privateKey_rsa || !key_aes) {
+            return res.status(400).json({
+                error: 1,
+                message: "thiếu key"
+            });
+        }
+        const response = await userServices.save_Key(id, JSON.stringify(privateKey_rsa), JSON.stringify(key_aes));
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+}
+export const get_Key = async (req, res) => {
+    try {
+        const id = req.data.id;
+        if (!id) {
+            return res.status(400).json({
+                error: 1,
+                message: "Vui lòng điền đầy đủ thông tin!"
+            });
+        }
+        const response = await userServices.get_Key(id);
+        return res.status(200).json(response);
+    } catch (error) {
+        return res.status(500).json(error);
+    }
+}

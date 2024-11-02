@@ -15,7 +15,6 @@ export const login = async (req, res) => {
         const response = await authServices.login(email, password);
         if (response.error === 0) {
             const accessToken = create_token(response.id);
-            console.log(accessToken);
             const setToken = await userServices.setPublicKey_Token(response.id, accessToken.public_key_token);
             if (setToken.error === 1) {
                 return res.status(500).json({
@@ -23,7 +22,6 @@ export const login = async (req, res) => {
                     message: "Đăng nhập thất bại"
                 });
             }
-            console.log(response.id);
             await keytar.setPassword('file-security-app', "id_user", response.id.toString());
             await keytar.setPassword('file-security-app', "accessToken", accessToken.token);
         }
